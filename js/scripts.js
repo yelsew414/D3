@@ -5,7 +5,7 @@ function np(c) {
     return z
 }
 
-var margin = {top: 30, right: 30, bottom: 100, left: 60};
+var margin = {top: 30, right: 30, bottom: 150, left: 60};
 var width = 1000 - margin.left - margin.right;
 var height = 700 - margin.top - margin.bottom;
 
@@ -26,10 +26,11 @@ var svg = d3.select("svg")
     
     
     d3.csv("https://raw.githubusercontent.com/prasertcbs/basic-dataset/master/college-salaries/degrees-that-pay-back.csv").then(function(data) {
-
-        // reduce data set
-        data = data.slice(0, 10)
         
+        data.sort(function(a, b) {
+            return d3.ascending(np(a['Mid-Career Median Salary']), np(b['Mid-Career Median Salary']))
+        })
+
         var x = d3.scaleBand()
                 .domain(data.map(function(d) { return d['Undergraduate Major']}))
                 .range([ 0, width])
