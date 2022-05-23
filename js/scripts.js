@@ -23,6 +23,13 @@ var svg = d3.select("svg")
     
     svg.append("g")
         .call(d3.axisLeft(y))
+
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 5))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "35px") 
+        .text("Mid-Career Median Salary by Degree");
     
     
     d3.csv("https://raw.githubusercontent.com/prasertcbs/basic-dataset/master/college-salaries/degrees-that-pay-back.csv").then(function(data) {
