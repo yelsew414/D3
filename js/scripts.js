@@ -17,47 +17,47 @@ var svg = d3.select("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     
-    var y = d3.scaleLinear()
-            .domain([0, 120000])
-            .range([ height, 0])
+var y = d3.scaleLinear()
+        .domain([0, 120000])
+        .range([ height, 0])
     
-    svg.append("g")
-        .call(d3.axisLeft(y))
+svg.append("g")
+    .call(d3.axisLeft(y))
 
-    svg.append("text")
-        .attr("x", (width / 2))             
-        .attr("y", 0 - (margin.top / 5))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "35px") 
-        .text("Mid-Career Median Salary by Degree");
+svg.append("text")
+    .attr("x", (width / 2))             
+    .attr("y", 0 - (margin.top / 5))
+    .attr("text-anchor", "middle")  
+    .style("font-size", "35px") 
+    .text("Mid-Career Median Salary by Degree");
     
     
-    d3.csv("https://raw.githubusercontent.com/prasertcbs/basic-dataset/master/college-salaries/degrees-that-pay-back.csv").then(function(data) {
+d3.csv("https://raw.githubusercontent.com/prasertcbs/basic-dataset/master/college-salaries/degrees-that-pay-back.csv").then(function(data) {
+    
+    data.sort(function(a, b) {
+        return d3.ascending(np(a['Mid-Career Median Salary']), np(b['Mid-Career Median Salary']))
+    })
+
+    var x = d3.scaleBand()
+            .domain(data.map(function(d) { return d['Undergraduate Major']}))
+            .range([ 0, width])
+            .padding(.2)
         
-        data.sort(function(a, b) {
-            return d3.ascending(np(a['Mid-Career Median Salary']), np(b['Mid-Career Median Salary']))
-        })
-
-        var x = d3.scaleBand()
-                .domain(data.map(function(d) { return d['Undergraduate Major']}))
-                .range([ 0, width])
-                .padding(.2)
-            
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-            .attr("transform", "translate(-10, 0)rotate(-45)")
-            .style("text-anchor", "end");
-            
-        svg.selectAll("myBar")
-            .data(data)
-            .enter()
-            .append("rect")
-                .attr("x", function(d) {return x(d['Undergraduate Major'])})
-                .attr("y", function(d) {return y(np(d['Mid-Career Median Salary']))})
-                .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(np(d['Mid-Career Median Salary']))})
-                .attr("fill", "#69b3a2");
+    svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .attr("transform", "translate(-10, 0)rotate(-45)")
+        .style("text-anchor", "end");
+        
+    svg.selectAll("myBar")
+        .data(data)
+        .enter()
+        .append("rect")
+            .attr("x", function(d) {return x(d['Undergraduate Major'])})
+            .attr("y", function(d) {return y(np(d['Mid-Career Median Salary']))})
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return height - y(np(d['Mid-Career Median Salary']))})
+            .attr("fill", "#69b3a2");
 
 });
