@@ -1,7 +1,11 @@
+function linearFunction(x) {
+    return [x, Math.pow(x - .5, 2) * 40]
+}
+
 function lineData() {
     let temp = []
-    for (let i = 0; i < 100; i++) {
-        temp.push( [i, Math.pow(i - .5, 2) * 40] )
+    for (let i = 0; i <= 100; i++) {
+        temp.push( linearFunction(i) )
     }
     return temp
 }
@@ -19,7 +23,7 @@ let yScale = d3.scaleLinear()
         .range([ height, 0])
 
 let xScale = d3.scaleLinear()
-                .domain([0, d3.max(data, (d) => {return d[0]} ) +1])
+                .domain([0, d3.max(data, (d) => {return d[0]} )])
                 .range([0, width])
 
 linesvg.append("g")
@@ -34,7 +38,7 @@ linesvg.append("text")
     .attr("y", 0 - (margin.top / 5))
     .attr("text-anchor", "middle")  
     .style("font-size", "35px") 
-    .text("D3 line chart");
+    .text("Interactive D3 line chart");
 
 // line generator
 let Gen = d3.line()
@@ -51,3 +55,25 @@ linesvg.append("path")
     .style("fill", "none")
     .style("stroke", "#CC0000")
     .style("stroke-width", "2");
+
+linesvg.append('g')
+    .selectAll("dot")
+    .data([[0,0]])
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return xScale(d[0]); } )
+    .attr("cy", function (d) { return yScale(d[1]); } )
+    .attr("class", "dot")
+    .attr("r", 6)
+    .style("fill", "#CC0000");
+
+
+d3.select('input#myRange').on("input", function(){
+        
+    let newXY = linearFunction(parseInt(this.value))
+
+    linesvg.select("circle.dot")
+        .attr("cx", function (d) { return xScale(newXY[0]); })
+        .attr("cy", function (d) { return yScale(newXY[1]); })
+
+})

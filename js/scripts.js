@@ -1,7 +1,6 @@
 function np(c) {
     // convert currency values into number
     let z = Number(c.replace(/[^0-9.-]+/g,""));
-    console.log(z)
     return z
 }
 

@@ -15,9 +15,16 @@
 
 <body>
   
-  <svg id="barchart" width="1000" height="700"></svg>
-  <hr>
-  <svg id="linechart" width="1000" height="700"></svg>
+  <div style="width: 1000px;"> 
+    <svg id="barchart" width="1000" height="700"></svg>
+    <hr>
+    <svg id="linechart" width="1000" height="700"></svg>
+  
+    <div class="slidecontainer">
+        <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
+    </div>
+  </div>
+  
 
   <script src="js/scripts.js"></script>
   <script src="js/linechart.js"></script>
