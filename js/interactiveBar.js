@@ -1,4 +1,9 @@
 (function(){
+
+    var margin = {top: 30, right: 30, bottom: 30, left: 60};
+    var width = 1000 - margin.left - margin.right;
+    var height = 700 - margin.top - margin.bottom;
+    
     var svg = d3.select("svg#interactiveBar")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
