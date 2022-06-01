@@ -42,7 +42,19 @@
             .attr("y", (d) => yScale(d.value))
             .attr("width", xScale.bandwidth())
             .attr("height", (d) => height - yScale(d.value))
-            .attr("fill", "#69b3a2")
+            .attr("fill", "red")
 
 
+    d3.select('input#barRange').on("input", function() {
+
+        data[0].value = this.value
+        data[1].value = 100 - this.value
+
+        svg.selectAll("rect")
+            .data(data)
+            .join("rect")
+            .attr("height", (d) => height - yScale(d.value))
+            .attr("y", (d) => yScale(d.value))
+            
+    })
 })()
