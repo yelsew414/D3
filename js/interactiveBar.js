@@ -57,4 +57,13 @@
             .attr("y", (d) => yScale(d.value))
             
     })
+
+    d3.selectAll('svg#interactiveBar rect').on("mouseover", function(d) {
+        let rect = d3.select(this)
+        rect.transition().duration(500).attr('fill', 'darkred')
+    })
+    d3.selectAll('svg#interactiveBar rect').on("mouseout", function(d) {
+        let rect = d3.select(this)
+        rect.transition().duration(500).attr('fill', 'red')
+    })
 })()
