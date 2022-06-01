@@ -1,4 +1,16 @@
-p {font-size : 12pt;}
+.wrapper {
+  width: 50%;
+  margin: auto;
+}
+
+svg.chart {
+  height: 700px;
+  width: 1000px;
+}
+
+hr {
+  margin: 100px;
+}
 
 .slidecontainer {
   width: 100%;

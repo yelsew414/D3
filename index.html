@@ -15,10 +15,10 @@
 
 <body>
   
-  <div style="width: 1000px;"> 
-    <svg id="barchart" width="1000" height="700"></svg>
+  <div class="wrapper"> 
+    <svg id="barchart" class="chart"></svg>
     <hr>
-    <svg id="linechart" width="1000" height="700"></svg>
+    <svg id="linechart" class="chart"></svg>
   
     <div class="slidecontainer">
         <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
@@ -26,7 +26,7 @@
 
     <hr>
 
-    <svg id="interactiveBar" width="1000" height="700"></svg>
+    <svg id="interactiveBar" class="chart"></svg>
 
     <div class="slidercontainer">
         <input type="range" min="0" max="100" value="0" class="slider" id="barRange">
@@ -35,6 +35,7 @@
   </div>
   
   <script src="js/scripts.js"></script>
+  <script src="js/barchart.js"></script>
   <script src="js/linechart.js"></script>
   <script src="js/interactiveBar.js"></script>
 </body>
