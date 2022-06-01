@@ -1,7 +1,6 @@
 function np(c) {
     // convert currency values into number
     let z = Number(c.replace(/[^0-9.-]+/g,""));
-    console.log(z)
     return z
 }
 
@@ -9,7 +8,7 @@ var margin = {top: 30, right: 30, bottom: 150, left: 60};
 var width = 1000 - margin.left - margin.right;
 var height = 700 - margin.top - margin.bottom;
 
-var svg = d3.select("svg")
+var svg = d3.select("svg#barchart")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
