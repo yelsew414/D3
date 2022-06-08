@@ -11,6 +11,8 @@
     
     d3.csv('https://raw.githubusercontent.com/yelsew414/data/main/2018GDP.csv').then( function(fulldata){
         
+        fulldata.sort((d) => +d.GDP)
+
         var svg = d3.select("svg#animatedBar")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -26,10 +28,12 @@
         let yScale = d3.scaleLinear()
             .domain([0, d3.max(data, d => +d['GDP'])])
             .range([height, 0])
+
+        let yAxis = d3.axisLeft(yScale).ticks(10, 's')
     
         svg.append("g")
             .attr("class", "yaxis")
-            .call(d3.axisLeft(yScale))
+            .call(yAxis)
     
         svg.append("text")
             .attr("x", (width / 2))
@@ -73,6 +77,7 @@
             data = fulldata.slice(start, index)
         
             const t = svg.transition()
+                .ease(d3.easeLinear)
                 .duration(duration);
             
             xScale = d3.scaleBand()
@@ -80,30 +85,39 @@
                 .range([0, width])
                 .padding(padding)
                 
-            yScale = d3.scaleLinear()
-                .domain([0, d3.max(data, d => +d['GDP'])])
-                .range([height, 0])
-
             svg.selectAll("g.xaxis")
                 .transition()
+                .ease(d3.easeLinear)
                 .duration(duration)
                 .call(d3.axisBottom(xScale));
+
+            yScale.domain([0, d3.max(data, d => +d['GDP'])])
+
+            svg.selectAll("g.yaxis")
+                .transition()
+                .ease(d3.easeLinear)
+                .duration(duration)
+                .call(yAxis )
                 
             svg.selectAll("rect")
                 .data(data, d => d.Entity)
                 .join(
                     enter => enter.append("rect")
-                            .attr("y", (d) => yScale(d.GDP))
+                            .attr("y", (d) => 0)
                             .attr("x", d => width)
-                            .attr("height", (d) => height - yScale(d.GDP))
+                            .attr("height", (d) => 0)
                             .attr("width", xScale.bandwidth())
                         .call(enter => enter.transition(t)
                             .attr("x", (d) => xScale(d.Entity))
                             .attr("fill", "green")
+                            .attr("height", d => height - yScale(d.GDP))
+                            .attr("y", d => yScale(d.GDP))
                         ),
                     update => update
                         .call(update => update.transition(t)
+                            .attr("height", (d) => height - yScale(d.GDP))
                             .attr("x", (d, i) => xScale(d.Entity))
+                            .attr("y", (d, i) => yScale(d.GDP))
                             .attr("width", xScale.bandwidth())
                         ),
                     exit => exit
